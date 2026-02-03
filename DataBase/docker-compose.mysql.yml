@@ -1,0 +1,64 @@
+version: "3.8"
+# Versão da especificação do Docker Compose
+
+services:
+  mysql:
+    # Serviço MySQL
+
+    image: mysql:8.0
+    # Imagem oficial do MySQL (tag 8.0)
+
+    container_name: mysql_local
+    # Nome fixo do container
+
+    restart: unless-stopped
+    # Reinicia automaticamente, exceto se parado manualmente
+
+    environment:
+      # Variáveis de ambiente usadas na inicialização do MySQL
+
+      MYSQL_ROOT_PASSWORD: root
+      # Senha do usuário root
+
+      MYSQL_DATABASE: db_local
+      # Banco criado automaticamente na primeira subida
+
+    ports:
+      - "3306:3306"
+      # Porta do host → porta do container
+      # Permite conexão via localhost:3306
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+      # Volume para persistência de dados
+
+volumes:
+  mysql_data:
+  # Volume Docker gerenciado automaticamente
+  # para armazenar dados do MySQL
+  # Evita perda de dados ao recriar o container
+  # Dados ficam em um local do sistema gerenciado pelo Docker
+
+# ========================================================
+# 1) Primeira vez / criar container e volume:
+#    docker compose -f docker-compose.mysql.yml up -d
+#
+#    O que este comando faz:
+#    - Faz pull da imagem mysql:8.0 (se não existir)
+#    - Cria o volume de dados
+#    - Cria o container mysql_local
+#    - Inicia o MySQL em background
+#
+# 2) Ver containers em execução:
+#    docker ps
+#
+# 3) Ver logs do MySQL (aguarde "Ready for start up"):
+#    docker logs -f mysql_local
+#
+# 4) Parar o container (mantém os dados):
+#    docker compose -f docker-compose.mysql.yml down
+#
+# 5) Parar e remover container + volume (reset total):
+#    docker compose -f docker-compose.mysql.yml down -v
+# ========================================================
+#
