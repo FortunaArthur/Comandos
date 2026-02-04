@@ -15,7 +15,6 @@ CREATE TABLE nutriente_conteudo (
     nutriente_id INT NOT NULL,
     categoria_id INT NOT NULL,
     descricao TEXT NOT NULL,
-
     FOREIGN KEY (nutriente_id) REFERENCES nutriente(id),
     FOREIGN KEY (categoria_id) REFERENCES categoria(id)
-);
+) ENGINE=InnoDB;
